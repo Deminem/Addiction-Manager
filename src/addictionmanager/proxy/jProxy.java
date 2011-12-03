@@ -115,6 +115,9 @@ public class jProxy extends Thread
                 
                 
                 
+                
+                
+                
 		int port = 0;
 		String fwdProxyServer = "";
 		int fwdProxyPort = 0;
