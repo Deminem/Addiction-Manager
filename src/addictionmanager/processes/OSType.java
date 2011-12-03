@@ -10,17 +10,31 @@ package addictionmanager.processes;
  */
 public enum OSType {
 
+    NONE {
+
+        public String toString() {
+            return "NONE";
+        }
+    },
+        
     MAC {
 
         public String toString() {
-            return "Mac OS X";
+            return "mac";
         }
     },
     
     WINDOWS {
 
         public String toString() {
-            return "windows";
+            return "win";
+        }
+    },
+    
+    UNIX {
+
+        public String toString() {
+            return "nix";
         }
     }
 }

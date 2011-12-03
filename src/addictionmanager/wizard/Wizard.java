@@ -20,21 +20,21 @@ public enum Wizard {
     STEP1 {
 
         public String toString() {
-            return "STEP1";
+            return "s1";
         }
     },
     
     STEP2 {
 
         public String toString() {
-            return "STEP2";
+            return "s2";
         }
     },
     
     STEP3 {
 
         public String toString() {
-            return "STEP3";
+            return "s3";
         }
     }
 }

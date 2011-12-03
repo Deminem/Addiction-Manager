@@ -1,0 +1,21 @@
+<Tasks>
+  <Task>
+      <id>1</id>
+      <name>ssss</name>
+      <description>wasup !!</description>
+      <startDateTime>2011-12-03 11:06:53.667 UTC</startDateTime>
+      <endDateTime>2011-12-03 11:06:53.667 UTC</endDateTime>
+      <startDateTimeLong>0</startDateTimeLong>
+      <endDateTimeLong>0</endDateTimeLong>
+      <allowedApplications>
+        <string>facebook</string>
+        <string>twitter</string>
+      </allowedApplications>
+      <restrictedApplications>
+        <string>test1</string>
+        <string>test2</string>
+      </restrictedApplications>
+      <notificationType>ALERT_ONLY</notificationType>
+      <taskType>CURRENT</taskType>
+    </Task>
+</Tasks>

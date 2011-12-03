@@ -10,6 +10,28 @@
  */
 package addictionmanager.wizard;
 
+import addictionmanager.AddictionManagerApp;
+import addictionmanager.DateUtils;
+import addictionmanager.notifications.NotificationType;
+import addictionmanager.storage.Task;
+import addictionmanager.storage.TaskType;
+import addictionmanager.storage.XmlStorageUtility;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import org.freixas.jcalendar.DateEvent;
+import org.freixas.jcalendar.DateListener;
+import org.freixas.jcalendar.JCalendarCombo;
+import org.jdesktop.application.Action;
+
 /**
  *
  * @author Deminem
@@ -24,8 +46,12 @@ public class WizardView extends javax.swing.JDialog {
     public WizardView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        preLoadSettings();
     }
 
+
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -35,78 +61,103 @@ public class WizardView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane2 = new javax.swing.JDesktopPane();
+        sideBarPanel = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jDesktopPane3 = new javax.swing.JDesktopPane();
-        jLabel3 = new javax.swing.JLabel();
+        sidebarLabel1 = new javax.swing.JLabel();
+        sidebarLabel3 = new javax.swing.JLabel();
+        sidebarLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        wizardBtn2 = new javax.swing.JButton();
+        wizardBtn1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        stepPanel = new javax.swing.JPanel();
+        stepTitle = new javax.swing.JLabel();
+        stepDescription = new javax.swing.JLabel();
+        cards = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(addictionmanager.AddictionManagerApp.class).getContext().getResourceMap(WizardView.class);
         setTitle(resourceMap.getString("wizard.title")); // NOI18N
         setBounds(new java.awt.Rectangle(0, 100, 0, 0));
+        setLocation(new java.awt.Point(400, 150));
         setName("wizard"); // NOI18N
 
-        jDesktopPane2.setBackground(resourceMap.getColor("jDesktopPane2.background")); // NOI18N
-        jDesktopPane2.setName("jDesktopPane2"); // NOI18N
+        sideBarPanel.setBackground(resourceMap.getColor("sideBarPanel.background")); // NOI18N
+        sideBarPanel.setName("sideBarPanel"); // NOI18N
 
         jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
         jLabel1.setForeground(resourceMap.getColor("jLabel1.foreground")); // NOI18N
         jLabel1.setIcon(resourceMap.getIcon("jLabel1.icon")); // NOI18N
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
-        jLabel1.setBounds(10, 20, 160, 30);
-        jDesktopPane2.add(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLabel1.setBounds(10, 30, 160, 30);
+        sideBarPanel.add(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jDesktopPane1.setName("jDesktopPane1"); // NOI18N
         jDesktopPane1.setBounds(40, 110, 0, 0);
-        jDesktopPane2.add(jDesktopPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        sideBarPanel.add(jDesktopPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jDesktopPane3.setName("jDesktopPane3"); // NOI18N
         jDesktopPane3.setBounds(40, 140, 0, 0);
-        jDesktopPane2.add(jDesktopPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        sideBarPanel.add(jDesktopPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jLabel3.setIcon(resourceMap.getIcon("jLabel3.icon")); // NOI18N
-        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
-        jLabel3.setName("jLabel3"); // NOI18N
-        jLabel3.setBounds(10, 40, 150, 160);
-        jDesktopPane2.add(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        sidebarLabel1.setFont(resourceMap.getFont("sidebarLabel1.font")); // NOI18N
+        sidebarLabel1.setForeground(resourceMap.getColor("sidebarLabel1.foreground")); // NOI18N
+        sidebarLabel1.setText(resourceMap.getString("sidebarLabel1.text")); // NOI18N
+        sidebarLabel1.setEnabled(false);
+        sidebarLabel1.setName("sidebarLabel1"); // NOI18N
+        sidebarLabel1.setBounds(70, 115, 60, 30);
+        sideBarPanel.add(sidebarLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        sidebarLabel3.setFont(resourceMap.getFont("sidebarLabel3.font")); // NOI18N
+        sidebarLabel3.setForeground(resourceMap.getColor("sidebarLabel3.foreground")); // NOI18N
+        sidebarLabel3.setText(resourceMap.getString("sidebarLabel3.text")); // NOI18N
+        sidebarLabel3.setEnabled(false);
+        sidebarLabel3.setName("sidebarLabel3"); // NOI18N
+        sidebarLabel3.setBounds(70, 215, 60, 30);
+        sideBarPanel.add(sidebarLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        sidebarLabel2.setFont(resourceMap.getFont("sidebarLabel2.font")); // NOI18N
+        sidebarLabel2.setForeground(resourceMap.getColor("sidebarLabel2.foreground")); // NOI18N
+        sidebarLabel2.setText(resourceMap.getString("sidebarLabel2.text")); // NOI18N
+        sidebarLabel2.setEnabled(false);
+        sidebarLabel2.setName("sidebarLabel2"); // NOI18N
+        sidebarLabel2.setBounds(70, 165, 60, 30);
+        sideBarPanel.add(sidebarLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel2.setBackground(resourceMap.getColor("jPanel2.background")); // NOI18N
         jPanel2.setName("jPanel2"); // NOI18N
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(addictionmanager.AddictionManagerApp.class).getContext().getActionMap(WizardView.class, this);
+        wizardBtn2.setAction(actionMap.get("next")); // NOI18N
+        wizardBtn2.setText(resourceMap.getString("wizardBtn2.text")); // NOI18N
+        wizardBtn2.setName("wizardBtn2"); // NOI18N
 
-        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
-        jButton2.setName("jButton2"); // NOI18N
+        wizardBtn1.setAction(actionMap.get("back")); // NOI18N
+        wizardBtn1.setText(resourceMap.getString("wizardBtn1.text")); // NOI18N
+        wizardBtn1.setName("wizardBtn1"); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(364, Short.MAX_VALUE)
-                .add(jButton1)
+                .addContainerGap(503, Short.MAX_VALUE)
+                .add(wizardBtn1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jButton2)
-                .add(9, 9, 9))
+                .add(wizardBtn2)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jButton2)
-                    .add(jButton1))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(wizardBtn2)
+                    .add(wizardBtn1))
+                .add(23, 23, 23))
         );
 
         jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
@@ -115,9 +166,16 @@ public class WizardView extends javax.swing.JDialog {
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
-        jLabel4.setFont(resourceMap.getFont("jLabel4.font")); // NOI18N
-        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
-        jLabel4.setName("jLabel4"); // NOI18N
+        stepTitle.setFont(resourceMap.getFont("stepTitle.font")); // NOI18N
+        stepTitle.setForeground(resourceMap.getColor("stepTitle.foreground")); // NOI18N
+        stepTitle.setText(resourceMap.getString("stepTitle.text")); // NOI18N
+        stepTitle.setName("stepTitle"); // NOI18N
+
+        stepDescription.setBackground(resourceMap.getColor("stepDescription.background")); // NOI18N
+        stepDescription.setFont(resourceMap.getFont("stepDescription.font")); // NOI18N
+        stepDescription.setForeground(resourceMap.getColor("stepDescription.foreground")); // NOI18N
+        stepDescription.setText(resourceMap.getString("stepDescription.text")); // NOI18N
+        stepDescription.setName("stepDescription"); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -128,32 +186,41 @@ public class WizardView extends javax.swing.JDialog {
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(34, 34, 34)
                         .add(jLabel2))
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 94, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(409, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(45, Short.MAX_VALUE)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(stepTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 199, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(stepDescription, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 605, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(11, 11, 11)
-                .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(36, 36, 36)
+                        .add(jLabel2))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(11, 11, 11)
+                        .add(stepTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .add(stepDescription, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        stepPanel.setName("stepPanel"); // NOI18N
+        cards.setBackground(resourceMap.getColor("cards.background")); // NOI18N
+        cards.setName("cards"); // NOI18N
+        cards.setOpaque(false);
 
-        org.jdesktop.layout.GroupLayout stepPanelLayout = new org.jdesktop.layout.GroupLayout(stepPanel);
-        stepPanel.setLayout(stepPanelLayout);
-        stepPanelLayout.setHorizontalGroup(
-            stepPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 523, Short.MAX_VALUE)
+        org.jdesktop.layout.GroupLayout cardsLayout = new org.jdesktop.layout.GroupLayout(cards);
+        cards.setLayout(cardsLayout);
+        cardsLayout.setHorizontalGroup(
+            cardsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 670, Short.MAX_VALUE)
         );
-        stepPanelLayout.setVerticalGroup(
-            stepPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 374, Short.MAX_VALUE)
+        cardsLayout.setVerticalGroup(
+            cardsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 336, Short.MAX_VALUE)
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -161,25 +228,23 @@ public class WizardView extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(jDesktopPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 180, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(sideBarPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 180, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(stepPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .add(cards, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jDesktopPane2)
+            .add(sideBarPanel)
             .add(layout.createSequentialGroup()
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(stepPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(cards, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 50, Short.MAX_VALUE)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
-
-        stepPanel.getAccessibleContext().setAccessibleName(resourceMap.getString("stepPanel.AccessibleContext.accessibleName")); // NOI18N
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -187,7 +252,9 @@ public class WizardView extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public void loadWizardView() {
+    public static WizardView loadWizardView() {
+        WizardView dialog = null;
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
@@ -198,22 +265,360 @@ public class WizardView extends javax.swing.JDialog {
                         System.exit(0);
                     }
                 });
+                dialog.startWizard();
                 dialog.setVisible(true);
             }
         });
+        return dialog;
     }
+
+    public Wizard getCurrentStep() {
+        return currentStep;
+    }
+    
+    @Action
+    public void back() {
+        if (currentStep.equals(Wizard.STEP3)) {
+            currentStep = Wizard.STEP2;
+            step2();
+            
+            //Change the title
+            wizardBtn2.setText("Next");
+            
+            //show the back button
+            wizardBtn1.setVisible(true);
+        } 
+        else if (currentStep.equals(Wizard.STEP2)) {
+            currentStep = Wizard.STEP1;
+            step1();
+            
+            //show the back button
+            wizardBtn1.setVisible(false);
+        }
+                
+        cardLayout.previous(cards); 
+    }
+
+    @Action
+    public void next() {
+        if (currentStep.equals(Wizard.STEP1)) {
+            Step1 s = (Step1)cards.getComponents()[0]; 
+            
+            if (validateStep(Wizard.STEP1, s)) {
+                currentStep = Wizard.STEP2;
+                step2();
+            
+                //Change the title
+                wizardBtn2.setText("Next");
+            
+                //show the back button
+                wizardBtn1.setVisible(true);
+                
+                cardLayout.next(cards);
+            }
+        } 
+        else if (currentStep.equals(Wizard.STEP2)) {
+            Step2 s = (Step2)cards.getComponents()[1]; 
+            
+            if (validateStep(Wizard.STEP2, s)) {
+                currentStep = Wizard.STEP3;
+                step3();
+
+                //Change the title
+                wizardBtn2.setText("Finish");
+
+                //show the back button
+                wizardBtn1.setVisible(true);
+                
+                cardLayout.next(cards);
+            } 
+        } 
+        else if (currentStep.equals(Wizard.STEP3)) {
+            Step3 s = (Step3)cards.getComponents()[2]; 
+            
+            if (validateStep(Wizard.STEP3, s)) {
+                //Change the title
+                wizardBtn2.setText("Finish");
+
+                //show the back button
+                wizardBtn1.setVisible(true);
+
+                finishWizard();
+            }
+        }
+    }
+
+
+    private void step1() {
+
+        sidebarLabel1.setEnabled(true);
+        sidebarLabel2.setEnabled(false);
+        sidebarLabel3.setEnabled(false);
+        sidebarLabel1.setForeground(Color.BLACK);
+        sidebarLabel2.setForeground(new Color(102, 102, 102));
+        sidebarLabel3.setForeground(new Color(102, 102, 102));
+                
+        stepTitle.setText("New Task");
+        stepDescription.setText("<html><body>Create a new task in the addiction manager, to perform your schedule items on time."
+                + "</body></html>");
+        
+    }
+    
+    private void step2() {
+        
+        sidebarLabel1.setEnabled(false);
+        sidebarLabel2.setEnabled(true);
+        sidebarLabel3.setEnabled(false);
+        sidebarLabel1.setForeground(new Color(102, 102, 102));
+        sidebarLabel2.setForeground(Color.BLACK);
+        sidebarLabel3.setForeground(new Color(102, 102, 102));
+        
+        stepTitle.setText("Select Applications.");
+        stepDescription.setText("<html><body>Select specific applications for this task which will allow to use.<br>"
+                + "</body></html>");
+    }
+        
+    private void step3() {
+        
+        sidebarLabel1.setEnabled(false);
+        sidebarLabel2.setEnabled(false);
+        sidebarLabel3.setEnabled(true);
+        sidebarLabel1.setForeground(new Color(102, 102, 102));
+        sidebarLabel2.setForeground(new Color(102, 102, 102));
+        sidebarLabel3.setForeground(Color.BLACK);
+        
+        stepTitle.setText("Notification Alert");
+        stepDescription.setText("<html><body>Select notification for this task which will notify you, whenever the restricted program use"
+                + "during the task hours. </body></html>");
+        
+    }
+    
+    
+    /*
+     * Utility methods
+     * 
+     */
+     private void preLoadSettings() {
+        resetSettings();
+        
+        /*create image icon to get image*/
+        ImageIcon imageicon = new ImageIcon(getClass().getResource("nav.png"));
+                
+        //Navbar
+        navBarPanel = new NavBarPanel(imageicon.getImage());
+        navBarPanel.setBounds(20, 100, 136, 164);
+        sideBarPanel.add(navBarPanel);
+        sideBarPanel.validate();
+        
+        task = new Task();
+        currentStep = Wizard.STEP1;
+        
+        cardLayout = new CardLayout(0, 0);
+        cards.setLayout(cardLayout);
+        
+        Step1 s1 = new Step1();
+        Step2 s2 = new Step2();
+        Step3 s3 = new Step3();
+        
+        cards.add(s1, "s1");
+        cards.add(s2, "s2");
+        cards.add(s3, "s3");
+        
+        cardLayout.show(cards, "s1");
+        
+        //hide back button
+        wizardBtn1.setVisible(false);
+     }
+    
+      private void resetSettings() {
+
+         currentStep = Wizard.STEP1;
+      }
+     
+    /**
+     * At startup create and show the main frame of the wizard.
+     */
+    private void startWizard() {
+
+        step1();
+
+    }
+
+    private void finishWizard() {
+    
+         AddictionManagerApp app = AddictionManagerApp.getApplication();
+         XmlStorageUtility storage = (XmlStorageUtility)AddictionManagerApp.getStorageUtility();
+         
+         if (DateUtils.isCurrentDate(task.getStartDateTime())) {
+             task.setTaskType(TaskType.CURRENT);
+         }
+        else if (DateUtils.isToday(task.getStartDateTime())) {
+             task.setTaskType(TaskType.TODAY);
+         }
+         else if (DateUtils.isWithinDaysFuture(task.getStartDateTime(), 1)) {
+             task.setTaskType(TaskType.TOMORROW);
+         }
+         else {
+             task.setTaskType(TaskType.SCHEDULED);
+         }
+         
+         //Store the task.
+         storage.saveDocument(task);
+         
+         this.dispose();      
+         //Reset the global instance 
+         app.setWizardViewManager(null);
+    }       
+    
+    private boolean validateStep(Wizard wz, Object o) {
+        
+        boolean validateFlag = false;
+        
+        if (wz.equals(Wizard.STEP1)) {
+            Step1 s = (Step1)o;
+            if (s.taskName.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Task name can not be emtpy. Please specify some task name.",
+				                       "Warning", JOptionPane.WARNING_MESSAGE);
+                
+                return false;
+            }
+            else if (s.taskDescription.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Task description can not be emtpy. Please let us know what do you want to do..",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+                
+                return false;
+            }
+            else if (s.startTime.getDate() != null && s.startTime.getDate().before(new Date())) {
+                JOptionPane.showMessageDialog(this, "Task schedule start date can not previous date of the calendar..",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+                
+                return false;
+            }
+            else if (s.endTime.getDate() != null && !s.endTime.getDate().after(s.startTime.getDate())) {
+                JOptionPane.showMessageDialog(this, "Task schedule end date should be greater than start date..",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+                
+                return false;
+            }
+            
+            //All things are seem good let's fill the bucket.
+            task.setName(s.taskName.getText());
+            task.setDescription(s.taskDescription.getText());
+            task.setStartDateTime(s.startTime.getDate());
+            task.setEndDateTime(s.endTime.getDate());
+            task.setStartDateTimeLong(s.startTime.getDate().getTime());
+            task.setEndDateTimeLong(s.endTime.getDate().getTime());
+        }
+        else if (wz.equals(Wizard.STEP2)) {
+             Step2 s = (Step2)o;
+             if (!s.facebookOption.isSelected() && !s.twitterOption.isSelected() && !s.youtubeOption.isSelected() &&
+                 !s.googlePlus.isSelected() && !s.gumtreeOption.isSelected() && !s.ebayOption.isSelected() &&
+                 !s.amazaonOption.isSelected() && !s.wowcOption.isSelected() && !s.miniclipOption.isSelected() ) {
+
+                    JOptionPane.showMessageDialog(this, "Please select atleast one program for this particular task.",
+				                       "Warning", JOptionPane.WARNING_MESSAGE);
+                
+                    return false;
+            }
+             
+            List<String> allowedApps = new ArrayList<String>();
+            List<String> restrictedApps = new ArrayList<String>();
+             
+             //Good to go
+             if (s.facebookOption.isSelected())
+                 allowedApps.add("Facebook");
+             else
+                 restrictedApps.add("Facebook");
+             
+             if (s.twitterOption.isSelected())
+                 allowedApps.add("Twitter");
+             else
+                 restrictedApps.add("Twitter");             
+             
+             if (s.googlePlus.isSelected())
+                 allowedApps.add("Google+");
+             else
+                 restrictedApps.add("Google+"); 
+             
+             if (s.youtubeOption.isSelected())
+                 allowedApps.add("You tube");
+             else
+                 restrictedApps.add("You tube");
+             
+            if (s.gumtreeOption.isSelected())
+                 allowedApps.add("Gumtree");
+             else
+                 restrictedApps.add("Gumtree");
+            
+            if (s.wowcOption.isSelected())
+                 allowedApps.add("World of WarCraft ");
+             else
+                 restrictedApps.add("World of WarCraft");
+            
+            if (s.amazaonOption.isSelected())
+                 allowedApps.add("Amazon ");
+            else
+                 restrictedApps.add("Amazon");
+            
+            if (s.ebayOption.isSelected())
+                 allowedApps.add("Ebay ");
+            else
+                 restrictedApps.add("Ebay");
+                        
+            if (s.miniclipOption.isSelected())
+                 allowedApps.add("Miniclip Game");
+            else
+                 restrictedApps.add("Miniclip Game");            
+                   
+            task.setAllowedApplications(allowedApps);
+            task.setRestrictedApplications(restrictedApps);
+        }  
+        else if (wz.equals(Wizard.STEP3)) {
+            Step3 s = (Step3)o;
+            
+            if (!s.alertOption1.isSelected() && !s.alertOption2.isSelected() && !s.alertOption3.isSelected()) {
+                JOptionPane.showMessageDialog(this, "Please select atleast one notification type for this particular task.",
+				                       "Warning", JOptionPane.WARNING_MESSAGE);
+                
+                return false;
+            }
+            
+            
+            if (s.alertOption1.isSelected())
+                task.setNotificationType(NotificationType.ALERT_ONE_TIME_AND_CLOSE);
+            
+            if (s.alertOption2.isSelected())
+                task.setNotificationType(NotificationType.ALERT_THREE_TIME_AND_CLOSE);            
+
+            if (s.alertOption3.isSelected())
+                task.setNotificationType(NotificationType.ALERT_AND_CLOSE_FORCEFULLY);            
+            
+        }   
+        
+        return true;
+    }
+   
+
+    private Wizard currentStep;
+    private Task task;
+    private NavBarPanel navBarPanel;  
+    public CardLayout cardLayout;
+            
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    public javax.swing.JPanel cards;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JDesktopPane jDesktopPane3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    public javax.swing.JPanel stepPanel;
+    public javax.swing.JDesktopPane sideBarPanel;
+    public javax.swing.JLabel sidebarLabel1;
+    public javax.swing.JLabel sidebarLabel2;
+    public javax.swing.JLabel sidebarLabel3;
+    public javax.swing.JLabel stepDescription;
+    public javax.swing.JLabel stepTitle;
+    public javax.swing.JButton wizardBtn1;
+    public javax.swing.JButton wizardBtn2;
     // End of variables declaration//GEN-END:variables
 }

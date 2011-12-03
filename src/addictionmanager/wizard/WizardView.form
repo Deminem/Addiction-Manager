@@ -7,6 +7,9 @@
     <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
       <Rectangle value="[0, 100, 0, 0]"/>
     </Property>
+    <Property name="location" type="java.awt.Point" editor="org.netbeans.beaninfo.editors.PointEditor">
+      <Point value="[400, 150]"/>
+    </Property>
     <Property name="name" type="java.lang.String" value="wizard" noResource="true"/>
   </Properties>
   <SyntheticProperties>
@@ -28,35 +31,38 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jDesktopPane2" min="-2" pref="180" max="-2" attributes="0"/>
+              <Component id="sideBarPanel" min="-2" pref="180" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="stepPanel" max="32767" attributes="0"/>
+                  <Component id="cards" max="32767" attributes="0"/>
+                  <Component id="jPanel1" max="32767" attributes="1"/>
                   <Component id="jPanel2" alignment="0" max="32767" attributes="1"/>
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="1"/>
               </Group>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jDesktopPane2" alignment="0" max="32767" attributes="0"/>
+          <Component id="sideBarPanel" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" pref="86" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="stepPanel" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="cards" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="50" max="32767" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JDesktopPane" name="jDesktopPane2">
+    <Container class="javax.swing.JDesktopPane" name="sideBarPanel">
       <Properties>
-        <Property name="background" type="java.awt.Color" resourceKey="jDesktopPane2.background"/>
-        <Property name="name" type="java.lang.String" value="jDesktopPane2" noResource="true"/>
+        <Property name="background" type="java.awt.Color" resourceKey="sideBarPanel.background"/>
+        <Property name="name" type="java.lang.String" value="sideBarPanel" noResource="true"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout"/>
       <SubComponents>
@@ -70,7 +76,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-              <JLayeredPaneConstraints x="10" y="20" width="160" height="30" layer="0" position="-1"/>
+              <JLayeredPaneConstraints x="10" y="30" width="160" height="30" layer="0" position="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -98,15 +104,54 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout"/>
         </Container>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="sidebarLabel1">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" resourceKey="jLabel3.icon"/>
-            <Property name="text" type="java.lang.String" resourceKey="jLabel3.text"/>
-            <Property name="name" type="java.lang.String" value="jLabel3" noResource="true"/>
+            <Property name="font" type="java.awt.Font" resourceKey="sidebarLabel1.font"/>
+            <Property name="foreground" type="java.awt.Color" resourceKey="sidebarLabel1.foreground"/>
+            <Property name="text" type="java.lang.String" resourceKey="sidebarLabel1.text"/>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="sidebarLabel1" noResource="true"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-              <JLayeredPaneConstraints x="10" y="40" width="150" height="160" layer="0" position="-1"/>
+              <JLayeredPaneConstraints x="70" y="115" width="60" height="30" layer="0" position="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="sidebarLabel3">
+          <Properties>
+            <Property name="font" type="java.awt.Font" resourceKey="sidebarLabel3.font"/>
+            <Property name="foreground" type="java.awt.Color" resourceKey="sidebarLabel3.foreground"/>
+            <Property name="text" type="java.lang.String" resourceKey="sidebarLabel3.text"/>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="sidebarLabel3" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
+              <JLayeredPaneConstraints x="70" y="215" width="60" height="30" layer="0" position="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="sidebarLabel2">
+          <Properties>
+            <Property name="font" type="java.awt.Font" resourceKey="sidebarLabel2.font"/>
+            <Property name="foreground" type="java.awt.Color" resourceKey="sidebarLabel2.foreground"/>
+            <Property name="text" type="java.lang.String" resourceKey="sidebarLabel2.text"/>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="sidebarLabel2" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
+              <JLayeredPaneConstraints x="70" y="165" width="60" height="30" layer="0" position="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -122,39 +167,51 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="364" max="32767" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="503" max="32767" attributes="0"/>
+                  <Component id="wizardBtn1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                  <Component id="wizardBtn2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="wizardBtn2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="wizardBtn1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="wizardBtn2">
           <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="jButton1.text"/>
-            <Property name="name" type="java.lang.String" value="jButton1" noResource="true"/>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="addictionmanager.wizard.WizardView" id="next" methodName="next"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="wizardBtn2.text"/>
+            <Property name="name" type="java.lang.String" value="wizardBtn2" noResource="true"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="wizardBtn1">
           <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="jButton2.text"/>
-            <Property name="name" type="java.lang.String" value="jButton2" noResource="true"/>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="addictionmanager.wizard.WizardView" id="back" methodName="back"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="wizardBtn1.text"/>
+            <Property name="name" type="java.lang.String" value="wizardBtn1" noResource="true"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -173,23 +230,34 @@
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" pref="94" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="45" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="stepTitle" alignment="0" min="-2" pref="199" max="-2" attributes="0"/>
+                              <Component id="stepDescription" alignment="0" min="-2" pref="605" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="409" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                  <Component id="jLabel4" min="-2" pref="17" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                          <Component id="stepTitle" min="-2" pref="25" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                  <Component id="stepDescription" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -201,22 +269,37 @@
             <Property name="name" type="java.lang.String" value="jLabel2" noResource="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="stepTitle">
           <Properties>
-            <Property name="font" type="java.awt.Font" resourceKey="jLabel4.font"/>
-            <Property name="text" type="java.lang.String" resourceKey="jLabel4.text"/>
-            <Property name="name" type="java.lang.String" value="jLabel4" noResource="true"/>
+            <Property name="font" type="java.awt.Font" resourceKey="stepTitle.font"/>
+            <Property name="foreground" type="java.awt.Color" resourceKey="stepTitle.foreground"/>
+            <Property name="text" type="java.lang.String" resourceKey="stepTitle.text"/>
+            <Property name="name" type="java.lang.String" value="stepTitle" noResource="true"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="stepDescription">
+          <Properties>
+            <Property name="background" type="java.awt.Color" resourceKey="stepDescription.background"/>
+            <Property name="font" type="java.awt.Font" resourceKey="stepDescription.font"/>
+            <Property name="foreground" type="java.awt.Color" resourceKey="stepDescription.foreground"/>
+            <Property name="text" type="java.lang.String" resourceKey="stepDescription.text"/>
+            <Property name="name" type="java.lang.String" value="stepDescription" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="stepPanel">
+    <Container class="javax.swing.JPanel" name="cards">
       <Properties>
-        <Property name="name" type="java.lang.String" value="stepPanel" noResource="true"/>
+        <Property name="background" type="java.awt.Color" resourceKey="cards.background"/>
+        <Property name="name" type="java.lang.String" value="cards" noResource="true"/>
+        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="stepPanel.AccessibleContext.accessibleName"/>
-      </AccessibilityProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
@@ -224,12 +307,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="523" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="670" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="374" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="336" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

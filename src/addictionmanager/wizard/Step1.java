@@ -10,6 +10,12 @@
  */
 package addictionmanager.wizard;
 
+import java.util.Calendar;
+import java.util.Locale;
+import org.freixas.jcalendar.DateEvent;
+import org.freixas.jcalendar.DateListener;
+import org.freixas.jcalendar.JCalendarCombo;
+
 /**
  *
  * @author Deminem
@@ -19,6 +25,28 @@ public class Step1 extends javax.swing.JPanel {
     /** Creates new form Step1 */
     public Step1() {
         initComponents();
+        
+        MyDateListener listener = new MyDateListener();
+        
+        startTime = new JCalendarCombo(
+                                        Calendar.getInstance(),
+                                        Locale.getDefault(),
+                                        JCalendarCombo.DISPLAY_DATE | JCalendarCombo.DISPLAY_TIME,
+                                        false);
+        startTime.setBounds(188, 235, 345, 25);
+        startTime.addDateListener(listener);
+        this.add(startTime);
+        
+        endTime = new JCalendarCombo(
+                                        Calendar.getInstance(),
+                                        Locale.getDefault(),
+                                        JCalendarCombo.DISPLAY_DATE | JCalendarCombo.DISPLAY_TIME,
+                                        false);
+        endTime.setBounds(188, 285, 345, 25);
+        endTime.addDateListener(listener);
+        this.add(endTime);
+        
+        validate();
     }
 
     /** This method is called from within the constructor to
@@ -30,19 +58,116 @@ public class Step1 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        taskName = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taskDescription = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(addictionmanager.AddictionManagerApp.class).getContext().getResourceMap(Step1.class);
+        setBackground(resourceMap.getColor("Form.background")); // NOI18N
         setName("Form"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(670, 386));
+
+        jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
+        taskName.setText(resourceMap.getString("taskName.text")); // NOI18N
+        taskName.setToolTipText(resourceMap.getString("taskName.toolTipText")); // NOI18N
+        taskName.setName("taskName"); // NOI18N
+        taskName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                taskNameActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        taskDescription.setColumns(20);
+        taskDescription.setRows(5);
+        taskDescription.setName("taskDescription"); // NOI18N
+        jScrollPane1.setViewportView(taskDescription);
+
+        jLabel3.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
+        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setName("jLabel3"); // NOI18N
+
+        jLabel4.setFont(resourceMap.getFont("jLabel4.font")); // NOI18N
+        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setName("jLabel4"); // NOI18N
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 527, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(92, 92, 92)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(jLabel4)
+                    .add(jLabel3)
+                    .add(jLabel1)
+                    .add(jLabel2))
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(taskName)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 420, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(37, 37, 37)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(taskName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(28, 28, 28)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel2)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
+                .add(jLabel3)
+                .add(30, 30, 30)
+                .add(jLabel4)
+                .add(83, 83, 83))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    private class MyDateListener implements DateListener
+    {
+
+        public void dateChanged(DateEvent e) {
+            Calendar c = e.getSelectedDate();
+            if (c != null) {
+                System.out.println(c.getTime());
+            } else {
+                System.out.println("No time selected.");
+            }
+        }
+    }
+    
+    
+    private void taskNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taskNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_taskNameActionPerformed
+
+    public JCalendarCombo startTime;
+    public JCalendarCombo endTime;
+            
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTextArea taskDescription;
+    public javax.swing.JTextField taskName;
     // End of variables declaration//GEN-END:variables
 }

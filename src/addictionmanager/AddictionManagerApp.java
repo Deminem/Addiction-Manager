@@ -4,11 +4,20 @@
 
 package addictionmanager;
 
+import addictionmanager.notifications.NotificationType;
 import addictionmanager.processes.MacProcessUtility;
 import addictionmanager.processes.OSType;
 import addictionmanager.processes.ProcessUtility;
 import addictionmanager.processes.WindowsProcessUtility;
-import addictionmanager.wizard.WizardManager;
+import addictionmanager.proxy.jProxy;
+import addictionmanager.storage.StorageUtility;
+import addictionmanager.storage.Task;
+import addictionmanager.storage.TaskType;
+import addictionmanager.storage.XmlStorageUtility;
+import addictionmanager.wizard.WizardView;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
@@ -17,36 +26,73 @@ import org.jdesktop.application.SingleFrameApplication;
  */
 public class AddictionManagerApp extends SingleFrameApplication {
 
-    private ProcessUtility processUtility;
-    private WizardManager wizardMngr;
+    private static ProcessUtility processUtility;
+    private static WizardView wizardViewMngr;
+    private static StorageUtility storageUtility;
     
     /**
      * At startup create and show the main frame of the application.
      */
     @Override protected void startup() {
         
-        String OS = System.getProperty("os.name");
+        String OS = System.getProperty("os.name").toLowerCase();
         System.out.print("OS >> " + OS);
         
         try {
             if (OS != null) {
+
+                
                 //Get the process info
                 processUtility = getProcessUtility(OS);
                 processUtility.getAllProcessInfo();
                 
-                //initialize the wizard stuff.
-                wizardMngr = new WizardManager();
-            
+                //initialize the storage utility
+                storageUtility = new XmlStorageUtility();
+                storageUtility.loadAllDocuments();
+                
+                //Check all the previous enteries in today, tomorrow, and schedule.
+                
+                
+                
+                
+                List<String> allowedApps = new ArrayList<String>();
+                allowedApps.add("facebook");
+                allowedApps.add("twitter");
+                
+                List<String> restrictedpps = new ArrayList<String>();
+                restrictedpps.add("test1");
+                restrictedpps.add("test2");
+
+                Task t = new Task();
+                t.setId(1);
+                t.setName("ssss");
+                t.setDescription("wasup !!");
+                t.setStartDateTime(new Date());
+                t.setEndDateTime(new Date());
+                t.setNotificationType(NotificationType.ALERT_ONLY);
+                t.setTaskType(TaskType.CURRENT);
+                t.setAllowedApplications(allowedApps);
+                t.setRestrictedApplications(restrictedpps);
+                
+               //storageUtility.saveDocument(t);
+                
+                
                 
                 //Show the application
                 show(new AddictionManagerView(this));
+                
+                //Start the proxy server
+                jProxy ps = new jProxy(9999);
+                ps.startProxyServer();
+                
+                
             }
         } catch (Exception e) {
         
         }
     }
     
-
+    
     /**
      * This method is to initialize the specified window by injecting resources.
      * Windows shown in our application come fully initialized from the GUI
@@ -64,24 +110,34 @@ public class AddictionManagerApp extends SingleFrameApplication {
         return Application.getInstance(AddictionManagerApp.class);
     }
     
-    public WizardManager getWizardManager() {
-        return this.wizardMngr;
+    public static WizardView getWizardViewManager() {
+        return wizardViewMngr;
     }
     
-    public ProcessUtility getProcessUtility(String os) throws NoSuchFieldException {
+    public void setWizardViewManager(WizardView wv) {
+        this.wizardViewMngr = wv;
+    }
+    
+    public static StorageUtility getStorageUtility() {
+        return storageUtility;
+    }
+    
+    public static ProcessUtility getProcessUtility(String os) throws NoSuchFieldException {
         ProcessUtility utility = null;
         
-        if (os.equalsIgnoreCase(OSType.MAC.toString())) { 
+        if (os.indexOf(OSType.MAC.toString()) >= 0) { 
             utility = new MacProcessUtility();
         }
-        else if (os.equalsIgnoreCase(OSType.WINDOWS.toString())) {
+        else if (os.indexOf(OSType.WINDOWS.toString()) >= 0) {
             utility = new WindowsProcessUtility();
+        }
+        else if (os.indexOf(OSType.UNIX.toString()) >= 0) {
+            utility = new MacProcessUtility();      //TODO make the unix utility
         }
         else {
             throw new NoSuchFieldException();
         }
              
-        
         return utility;
     }
     
