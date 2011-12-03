@@ -701,6 +701,15 @@ class Monitor{
     }
     
     public void monitor(){
+        // read tasks from task storage 
+        
+        // schedule timer to start with starttime of task;
+        //add blocked sites to blacklist
+        // start session
+        //schedule timer to endtime
+        //remove sites from list when timer is after endtime.
+        
+        
         startSession();
        this.running = true;
        if(running= true){
