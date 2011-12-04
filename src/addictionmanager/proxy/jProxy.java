@@ -63,6 +63,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class jProxy extends Thread {
@@ -643,16 +644,14 @@ class ProxyThread extends Thread {
 
 class Monitor {
 
-    ArrayList<String> sites;
+    List<BlockSite> sites;
     Date starttime;
     Date endtime;
     boolean running = false;
 
-    public Monitor(ArrayList<String> sites, Date startTime, Date endTime) {
+    public Monitor() {
 
-        this.sites = sites;
-        this.starttime = startTime;
-        this.endtime = endTime;
+        sites = new ArrayList<BlockSite>();
     }
 
     public void monitor() {
@@ -681,15 +680,18 @@ class Monitor {
 
     public void endSession() {
         // remove from blacklist
-        for (String s : sites) {
+        for (BlockSite bs : sites) {
+            
+            //Change this thing as we have now three things!! 
             BlackList.remove(s);
         }
     }
 
     public void startSession() {
         //start blocking
-        for (String s : sites) {
+        for (BlockSite bs : sites) {
 
+            //Change this thing as we have now three things!!
             BlackList.add(s);
         }
     }

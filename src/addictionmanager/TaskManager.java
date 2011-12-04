@@ -42,14 +42,14 @@ public class TaskManager extends Thread {
                     for (Task t : storageUtil.getDocument(TaskType.CURRENT).getList()) {
                         if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                             
-                            //send to the monitor list
+                            //send to the block list
                         }
                     }
                     
                     for (Task t : storageUtil.getDocument(TaskType.TODAY).getList()) {
                         if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                             
-                            //send to the monitor list
+                            //send to the block list
                         }
                     }
                     

@@ -38,18 +38,15 @@ public class WizardView extends javax.swing.JDialog {
 
     /** Creates new form WizardView */
     public WizardView() {
-    
     }
-    
+
     public WizardView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         preLoadSettings();
     }
 
-
-    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -252,7 +249,7 @@ public class WizardView extends javax.swing.JDialog {
      */
     public static WizardView loadWizardView() {
         WizardView dialog = null;
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
@@ -273,51 +270,49 @@ public class WizardView extends javax.swing.JDialog {
     public Wizard getCurrentStep() {
         return currentStep;
     }
-    
+
     @Action
     public void back() {
         if (currentStep.equals(Wizard.STEP3)) {
             currentStep = Wizard.STEP2;
             step2();
-            
+
             //Change the title
             wizardBtn2.setText("Next");
-            
+
             //show the back button
             wizardBtn1.setVisible(true);
-        } 
-        else if (currentStep.equals(Wizard.STEP2)) {
+        } else if (currentStep.equals(Wizard.STEP2)) {
             currentStep = Wizard.STEP1;
             step1();
-            
+
             //show the back button
             wizardBtn1.setVisible(false);
         }
-                
-        cardLayout.previous(cards); 
+
+        cardLayout.previous(cards);
     }
 
     @Action
     public void next() {
         if (currentStep.equals(Wizard.STEP1)) {
-            Step1 s = (Step1)cards.getComponents()[0]; 
-            
+            Step1 s = (Step1) cards.getComponents()[0];
+
             if (validateStep(Wizard.STEP1, s)) {
                 currentStep = Wizard.STEP2;
                 step2();
-            
+
                 //Change the title
                 wizardBtn2.setText("Next");
-            
+
                 //show the back button
                 wizardBtn1.setVisible(true);
-                
+
                 cardLayout.next(cards);
             }
-        } 
-        else if (currentStep.equals(Wizard.STEP2)) {
-            Step2 s = (Step2)cards.getComponents()[1]; 
-            
+        } else if (currentStep.equals(Wizard.STEP2)) {
+            Step2 s = (Step2) cards.getComponents()[1];
+
             if (validateStep(Wizard.STEP2, s)) {
                 currentStep = Wizard.STEP3;
                 step3();
@@ -327,13 +322,12 @@ public class WizardView extends javax.swing.JDialog {
 
                 //show the back button
                 wizardBtn1.setVisible(true);
-                
+
                 cardLayout.next(cards);
-            } 
-        } 
-        else if (currentStep.equals(Wizard.STEP3)) {
-            Step3 s = (Step3)cards.getComponents()[2]; 
-            
+            }
+        } else if (currentStep.equals(Wizard.STEP3)) {
+            Step3 s = (Step3) cards.getComponents()[2];
+
             if (validateStep(Wizard.STEP3, s)) {
                 //Change the title
                 wizardBtn2.setText("Finish");
@@ -346,7 +340,6 @@ public class WizardView extends javax.swing.JDialog {
         }
     }
 
-
     private void step1() {
 
         sidebarLabel1.setEnabled(true);
@@ -355,84 +348,83 @@ public class WizardView extends javax.swing.JDialog {
         sidebarLabel1.setForeground(Color.BLACK);
         sidebarLabel2.setForeground(new Color(102, 102, 102));
         sidebarLabel3.setForeground(new Color(102, 102, 102));
-                
+
         stepTitle.setText("New Task");
         stepDescription.setText("<html><body>Create a new task in the addiction manager, to perform your schedule items on time."
                 + "</body></html>");
-        
+
     }
-    
+
     private void step2() {
-        
+
         sidebarLabel1.setEnabled(false);
         sidebarLabel2.setEnabled(true);
         sidebarLabel3.setEnabled(false);
         sidebarLabel1.setForeground(new Color(102, 102, 102));
         sidebarLabel2.setForeground(Color.BLACK);
         sidebarLabel3.setForeground(new Color(102, 102, 102));
-        
+
         stepTitle.setText("Select Applications.");
         stepDescription.setText("<html><body>Select specific applications for this task which will allow to use.<br>"
                 + "</body></html>");
     }
-        
+
     private void step3() {
-        
+
         sidebarLabel1.setEnabled(false);
         sidebarLabel2.setEnabled(false);
         sidebarLabel3.setEnabled(true);
         sidebarLabel1.setForeground(new Color(102, 102, 102));
         sidebarLabel2.setForeground(new Color(102, 102, 102));
         sidebarLabel3.setForeground(Color.BLACK);
-        
+
         stepTitle.setText("Notification Alert");
         stepDescription.setText("<html><body>Select notification for this task which will notify you, whenever the restricted program use"
                 + "during the task hours. </body></html>");
-        
+
     }
-    
-    
+
     /*
      * Utility methods
      * 
      */
-     private void preLoadSettings() {
+    private void preLoadSettings() {
         resetSettings();
-        
+
         /*create image icon to get image*/
         ImageIcon imageicon = new ImageIcon(getClass().getResource("nav.png"));
-                
+
         //Navbar
         navBarPanel = new NavBarPanel(imageicon.getImage());
         navBarPanel.setBounds(20, 100, 136, 164);
         sideBarPanel.add(navBarPanel);
         sideBarPanel.validate();
-        
+
         task = new Task();
         currentStep = Wizard.STEP1;
-        
+
         cardLayout = new CardLayout(0, 0);
         cards.setLayout(cardLayout);
-        
+
         Step1 s1 = new Step1();
         Step2 s2 = new Step2();
         Step3 s3 = new Step3();
-        
+
         cards.add(s1, "s1");
         cards.add(s2, "s2");
         cards.add(s3, "s3");
-        
+
         cardLayout.show(cards, "s1");
-        
+
         //hide back button
         wizardBtn1.setVisible(false);
-     }
-    
-      private void resetSettings() {
+    }
 
-         currentStep = Wizard.STEP1;
-      }
-     
+    private void resetSettings() {
+
+        currentStep = Wizard.STEP1;
+    }
+
     /**
      * At startup create and show the main frame of the wizard.
      */
@@ -443,65 +435,59 @@ public class WizardView extends javax.swing.JDialog {
     }
 
     private void finishWizard() {
-    
-         AddictionManagerApp app = AddictionManagerApp.getApplication();
-         XmlStorageUtility storage = (XmlStorageUtility)AddictionManagerApp.getStorageUtility();
-         
-         if (DateUtils.isCurrentDate(task.getStartDateTime())) {
-             task.setTaskType(TaskType.CURRENT);
-         }
-        else if (DateUtils.isToday(task.getStartDateTime())) {
-             task.setTaskType(TaskType.TODAY);
-         }
-         else if (DateUtils.isWithinDaysFuture(task.getStartDateTime(), 1)) {
-             task.setTaskType(TaskType.TOMORROW);
-         }
-         else {
-             task.setTaskType(TaskType.SCHEDULED);
-         }
-         
-         //Store the task.
-         TasksResponse tr = storage.saveDocument(task);
-         
-         //Refresh
-         app.getApplicationView().changeTaskData(tr);
-         
-         this.dispose();      
-         //Reset the global instance 
-         app.setWizardViewManager(null);
-    }       
-    
+
+        AddictionManagerApp app = AddictionManagerApp.getApplication();
+        XmlStorageUtility storage = (XmlStorageUtility) app.getStorageUtility();
+
+        if (DateUtils.isCurrentDate(task.getStartDateTime())) {
+            task.setTaskType(TaskType.CURRENT);
+        } else if (DateUtils.isToday(task.getStartDateTime())) {
+            task.setTaskType(TaskType.TODAY);
+        } else if (DateUtils.isWithinDaysFuture(task.getStartDateTime(), 1)) {
+            task.setTaskType(TaskType.TOMORROW);
+        } else {
+            task.setTaskType(TaskType.SCHEDULED);
+        }
+
+        //Store the task.
+        TasksResponse tr = storage.saveDocument(task);
+
+        //Refresh
+        app.getApplicationView().changeTaskData(tr);
+
+        this.dispose();
+        //Reset the global instance 
+        app.setWizardViewManager(null);
+    }
+
     private boolean validateStep(Wizard wz, Object o) {
-        
+
         boolean validateFlag = false;
-        
+
         if (wz.equals(Wizard.STEP1)) {
-            Step1 s = (Step1)o;
+            Step1 s = (Step1) o;
             if (s.taskName.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Task name can not be emtpy. Please specify some task name.",
-				                       "Warning", JOptionPane.WARNING_MESSAGE);
-                
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+
                 return false;
-            }
-            else if (s.taskDescription.getText().isEmpty()) {
+            } else if (s.taskDescription.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Task description can not be emtpy. Please let us know what do you want to do..",
                         "Warning", JOptionPane.WARNING_MESSAGE);
-                
+
                 return false;
-            }
-            else if (s.startTime.getDate() != null && s.startTime.getDate().before(new Date())) {
+            } else if (s.startTime.getDate() != null && s.startTime.getDate().before(new Date())) {
                 JOptionPane.showMessageDialog(this, "Task schedule start date can not previous date of the calendar..",
                         "Warning", JOptionPane.WARNING_MESSAGE);
-                
+
                 return false;
-            }
-            else if (s.endTime.getDate() != null && !s.endTime.getDate().after(s.startTime.getDate())) {
+            } else if (s.endTime.getDate() != null && !s.endTime.getDate().after(s.startTime.getDate())) {
                 JOptionPane.showMessageDialog(this, "Task schedule end date should be greater than start date..",
                         "Warning", JOptionPane.WARNING_MESSAGE);
-                
+
                 return false;
             }
-            
+
             //All things are seem good let's fill the bucket.
             task.setName(s.taskName.getText());
             task.setDescription(s.taskDescription.getText());
@@ -509,102 +495,108 @@ public class WizardView extends javax.swing.JDialog {
             task.setEndDateTime(s.endTime.getDate());
             task.setStartDateTimeLong(s.startTime.getDate().getTime());
             task.setEndDateTimeLong(s.endTime.getDate().getTime());
-        }
-        else if (wz.equals(Wizard.STEP2)) {
-             Step2 s = (Step2)o;
-             if (!s.facebookOption.isSelected() && !s.twitterOption.isSelected() && !s.youtubeOption.isSelected() &&
-                 !s.googlePlus.isSelected() && !s.gumtreeOption.isSelected() && !s.ebayOption.isSelected() &&
-                 !s.amazaonOption.isSelected() && !s.wowcOption.isSelected() && !s.miniclipOption.isSelected() ) {
+        } else if (wz.equals(Wizard.STEP2)) {
+            Step2 s = (Step2) o;
+            if (!s.facebookOption.isSelected() && !s.twitterOption.isSelected() && !s.youtubeOption.isSelected()
+                    && !s.googlePlus.isSelected() && !s.gumtreeOption.isSelected() && !s.ebayOption.isSelected()
+                    && !s.amazaonOption.isSelected() && !s.wowcOption.isSelected() && !s.miniclipOption.isSelected()) {
 
-                    JOptionPane.showMessageDialog(this, "Please select atleast one program for this particular task.",
-				                       "Warning", JOptionPane.WARNING_MESSAGE);
-                
-                    return false;
-            }
-             
-            List<String> allowedApps = new ArrayList<String>();
-            List<String> restrictedApps = new ArrayList<String>();
-             
-             //Good to go
-             if (s.facebookOption.isSelected())
-                 allowedApps.add("Facebook");
-             else
-                 restrictedApps.add("Facebook");
-             
-             if (s.twitterOption.isSelected())
-                 allowedApps.add("Twitter");
-             else
-                 restrictedApps.add("Twitter");             
-             
-             if (s.googlePlus.isSelected())
-                 allowedApps.add("Google+");
-             else
-                 restrictedApps.add("Google+"); 
-             
-             if (s.youtubeOption.isSelected())
-                 allowedApps.add("You tube");
-             else
-                 restrictedApps.add("You tube");
-             
-            if (s.gumtreeOption.isSelected())
-                 allowedApps.add("Gumtree");
-             else
-                 restrictedApps.add("Gumtree");
-            
-            if (s.wowcOption.isSelected())
-                 allowedApps.add("World of WarCraft ");
-             else
-                 restrictedApps.add("World of WarCraft");
-            
-            if (s.amazaonOption.isSelected())
-                 allowedApps.add("Amazon ");
-            else
-                 restrictedApps.add("Amazon");
-            
-            if (s.ebayOption.isSelected())
-                 allowedApps.add("Ebay ");
-            else
-                 restrictedApps.add("Ebay");
-                        
-            if (s.miniclipOption.isSelected())
-                 allowedApps.add("Miniclip Game");
-            else
-                 restrictedApps.add("Miniclip Game");            
-                   
-            task.setAllowedApplications(allowedApps);
-            task.setRestrictedApplications(restrictedApps);
-        }  
-        else if (wz.equals(Wizard.STEP3)) {
-            Step3 s = (Step3)o;
-            
-            if (!s.alertOption1.isSelected() && !s.alertOption2.isSelected() && !s.alertOption3.isSelected()) {
-                JOptionPane.showMessageDialog(this, "Please select atleast one notification type for this particular task.",
-				                       "Warning", JOptionPane.WARNING_MESSAGE);
-                
+                JOptionPane.showMessageDialog(this, "Please select atleast one program for this particular task.",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+
                 return false;
             }
-            
-            
-            if (s.alertOption1.isSelected())
-                task.setNotificationType(NotificationType.ALERT_ONE_TIME_AND_CLOSE);
-            
-            if (s.alertOption2.isSelected())
-                task.setNotificationType(NotificationType.ALERT_THREE_TIME_AND_CLOSE);            
 
-            if (s.alertOption3.isSelected())
-                task.setNotificationType(NotificationType.ALERT_AND_CLOSE_FORCEFULLY);            
-            
-        }   
-        
+            List<String> allowedApps = new ArrayList<String>();
+            List<String> restrictedApps = new ArrayList<String>();
+
+            //Good to go
+            if (s.facebookOption.isSelected()) {
+                allowedApps.add("Facebook");
+            } else {
+                restrictedApps.add("Facebook");
+            }
+
+            if (s.twitterOption.isSelected()) {
+                allowedApps.add("Twitter");
+            } else {
+                restrictedApps.add("Twitter");
+            }
+
+            if (s.googlePlus.isSelected()) {
+                allowedApps.add("Google+");
+            } else {
+                restrictedApps.add("Google+");
+            }
+
+            if (s.youtubeOption.isSelected()) {
+                allowedApps.add("You tube");
+            } else {
+                restrictedApps.add("You tube");
+            }
+
+            if (s.gumtreeOption.isSelected()) {
+                allowedApps.add("Gumtree");
+            } else {
+                restrictedApps.add("Gumtree");
+            }
+
+            if (s.wowcOption.isSelected()) {
+                allowedApps.add("World of WarCraft ");
+            } else {
+                restrictedApps.add("World of WarCraft");
+            }
+
+            if (s.amazaonOption.isSelected()) {
+                allowedApps.add("Amazon ");
+            } else {
+                restrictedApps.add("Amazon");
+            }
+
+            if (s.ebayOption.isSelected()) {
+                allowedApps.add("Ebay ");
+            } else {
+                restrictedApps.add("Ebay");
+            }
+
+            if (s.miniclipOption.isSelected()) {
+                allowedApps.add("Miniclip Game");
+            } else {
+                restrictedApps.add("Miniclip Game");
+            }
+
+            task.setAllowedApplications(allowedApps);
+            task.setRestrictedApplications(restrictedApps);
+        } else if (wz.equals(Wizard.STEP3)) {
+            Step3 s = (Step3) o;
+
+            if (!s.alertOption1.isSelected() && !s.alertOption2.isSelected() && !s.alertOption3.isSelected()) {
+                JOptionPane.showMessageDialog(this, "Please select atleast one notification type for this particular task.",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+
+                return false;
+            }
+
+            if (s.alertOption1.isSelected()) {
+                task.setNotificationType(NotificationType.ALERT_ONE_TIME_AND_CLOSE);
+            }
+
+            if (s.alertOption2.isSelected()) {
+                task.setNotificationType(NotificationType.ALERT_THREE_TIME_AND_CLOSE);
+            }
+
+            if (s.alertOption3.isSelected()) {
+                task.setNotificationType(NotificationType.ALERT_AND_CLOSE_FORCEFULLY);
+            }
+
+        }
+
         return true;
     }
-   
-
     private Wizard currentStep;
     private Task task;
-    private NavBarPanel navBarPanel;  
+    private NavBarPanel navBarPanel;
     public CardLayout cardLayout;
-            
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel cards;
     private javax.swing.JDesktopPane jDesktopPane1;
