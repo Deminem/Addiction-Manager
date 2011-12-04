@@ -4,11 +4,13 @@
  */
 package addictionmanager;
 
+import addictionmanager.proxy.BlockSite;
 import addictionmanager.proxy.jProxy;
 import addictionmanager.storage.Task;
 import addictionmanager.storage.TaskType;
 import addictionmanager.storage.TasksResponse;
 import addictionmanager.storage.XmlStorageUtility;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -22,9 +24,9 @@ public class TaskManager extends Thread {
     private int checkingInterval = 10 * 1000;   //10 secs
     
     public TaskManager() {
-        //proxyServer = new jProxy(AppConstants.PROXY_SERVER_PORT);
-        //proxyServer.setDebug(MIN_PRIORITY, System.out);
-        //proxyServer.start();
+        proxyServer = new jProxy(AppConstants.PROXY_SERVER_PORT);
+        proxyServer.setDebug(MIN_PRIORITY, System.out);
+        proxyServer.start();
         
         this.running = Boolean.TRUE;
     }
@@ -39,17 +41,31 @@ public class TaskManager extends Thread {
                 Thread thisThread = Thread.currentThread();
                 while (running) {
                     
-                    for (Task t : storageUtil.getDocument(TaskType.CURRENT).getList()) {
-                        if (DateUtils.isCurrentDate(t.getStartDateTime())) {
+                    if (!storageUtil.getDocument(TaskType.CURRENT).getList().isEmpty()) {
+                        for (Task t : storageUtil.getDocument(TaskType.CURRENT).getList()) {
+                          if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                             
                             //send to the block list
+                            for (String site : t.getRestrictedApplications()) {
+                                
+                                //Add in the bucket
+                                proxyServer.addInWatcher(getBlockSite(t, site));
+                            }
+                          }
                         }
                     }
                     
-                    for (Task t : storageUtil.getDocument(TaskType.TODAY).getList()) {
-                        if (DateUtils.isCurrentDate(t.getStartDateTime())) {
+                    if (!storageUtil.getDocument(TaskType.TODAY).getList().isEmpty()) {
+                        for (Task t : storageUtil.getDocument(TaskType.TODAY).getList()) {
+                            if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                             
                             //send to the block list
+                            for (String site : t.getRestrictedApplications()) {
+                                
+                                //Add in the bucket
+                                proxyServer.addInWatcher(getBlockSite(t, site));
+                            }
+                          }
                         }
                     }
                     
@@ -62,6 +78,20 @@ public class TaskManager extends Thread {
              System.out.println("Error in ProxyThread: " + e);
         }
     }
+    
+    private BlockSite getBlockSite(Task t, String site) {
+        BlockSite blockSite = proxyServer.getBlockSiteFromWacther(site);
+
+        if (blockSite != null && DateUtils.isAfterDay(blockSite.getEndtime(), t.getEndDateTime())) {
+            blockSite.setTaskName(t.getName());
+            blockSite.setEndtime(t.getEndDateTime());
+        } else {
+            blockSite = new BlockSite(t.getName(), site, t.getStartDateTime(), t.getEndDateTime());
+        }
+        
+        return blockSite;
+    }
+    
     
     public void startTaskManager() {
         this.start();

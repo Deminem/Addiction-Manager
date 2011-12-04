@@ -57,6 +57,7 @@ package addictionmanager.proxy;
  * Julian Robichaux -- http://www.nsftools.com
  */
 import addictionmanager.AppConstants;
+import java.awt.Frame;
 import java.io.*;
 import java.net.*;
 import java.lang.reflect.Array;
@@ -65,6 +66,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 public class jProxy extends Thread {
 
@@ -76,103 +78,26 @@ public class jProxy extends Thread {
     private int ptTimeout = ProxyThread.DEFAULT_TIMEOUT;
     private int debugLevel = 0;
     private PrintStream debugOut = System.out;
-    static Monitor m = null;
+    private Monitor m = null;
 
-//    public void startProxyServer() {
-//        System.err.println("****building defaultblacklist...........****");
-//        ArrayList<String> defaultblockedSites = new ArrayList<String>();
-//        ///to be fetched from adnan
-//        defaultblockedSites.add("facebook");
-//        defaultblockedSites.add("twitter");
-////                blockedSites.add("youtube");
-////                blockedSites.add("plus.google");
-////                blockedSites.add("ebay");
-////                blockedSites.add("gumtree");
-//
-//        // b=new BlackList(blockedSites);
-//
-//        BlackList bl = new BlackList(defaultblockedSites);
-//        //Date starttime= new Date(new Long("1322972400000"));
-//        try {
-//
-//            Date starttime = new Date();
-//
-//            Date endtime = new Date(new Long("1322992400000"));
-//            ArrayList<String> blockedSites = new ArrayList<String>();
-//            blockedSites.add("youtube");
-//            m = new Monitor(blockedSites, starttime, endtime);
-//            System.out.println("88888888888888888888888888");
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        m.monitor();
-//
-//
-//
-//
-//
-//
-//        int port = 0;
-//        String fwdProxyServer = "";
-//        int fwdProxyPort = 0;
-//
-////		if (args.length == 0)
-////		{
-////			System.err.println("USAGE: java jProxy <port number> [<fwd proxy> <fwd port>]");
-////			System.err.println("  <port number>   the port this service listens on");
-////			System.err.println("  <fwd proxy>     optional proxy server to forward requests to");
-////			System.err.println("  <fwd port>      the port that the optional proxy server is on");
-////			System.err.println("\nHINT: if you don't want to see all the debug information flying by,");
-////			System.err.println("you can pipe the output to a file or to 'nul' using \">\". For example:");
-////			System.err.println("  to send output to the file prox.txt: java jProxy 8080 > prox.txt");
-////			System.err.println("  to make the output go away: java jProxy 8080 > nul");
-////			return;
-////		}
-//
-//        // get the command-line parameters
-//        //port = Integer.parseInt(args[0]);
-//        port = 9999;
-//
-//
-//        /*
-//        if (args.length > 2)
-//        {
-//        fwdProxyServer = args[1];
-//        fwdProxyPort = Integer.parseInt(args[2]);
-//        }
-//         * 
-//         */
-//
-//        // create and start the jProxy thread, using a 20 second timeout
-//        // value to keep the threads from piling up too much
-//
-//        System.err.println("  **  Starting jProxy on port " + port + ". Press CTRL-C to end.  **\n");
-//        jProxy jp = new jProxy(port, fwdProxyServer, fwdProxyPort, 20);
-//
-//
-//
-//
-//        jp.setDebug(1, System.out);		// or set the debug level to 2 for tons of output
-//        jp.start();
-//
-//        // run forever; if you were calling this class from another
-//        // program and you wanted to stop the jProxy thread at some
-//        // point, you could write a loop that waits for a certain
-//        // condition and then calls jProxy.closeSocket() to kill
-//        // the running jProxy thread
-//        while (true) {
-//            try {
-//                Thread.sleep(3000);
-//            } catch (Exception e) {
-//            }
-//        }
-//
-//        // if we ever had a condition that stopped the loop above,
-//        // we'd want to do this to kill the running thread
-//        //jp.closeSocket();
-//        //return;
-//    }
-
+    
+    public void addInWatcher(BlockSite site) {
+        Map<String, BlockSite> blackList = BlackList.blacklist;
+        
+        if (site != null) {
+            blackList.put(site.getStieName(), site);
+        }
+    }
+    
+    public BlockSite getBlockSiteFromWacther(String siteName) {
+        Map<String, BlockSite> blackList = BlackList.blacklist;
+        
+        if (siteName != null && !blackList.isEmpty()) {
+            return blackList.get(siteName);
+        }
+        
+        return null;
+    }
     
     /* here's a main method, in case you want to run this by itself */
     public static void main(String args[]) {
@@ -181,6 +106,11 @@ public class jProxy extends Thread {
         proxyServer.start();
     }
 
+    public Monitor getMonitor() {
+        return this.m;
+    }
+    
+    
     /* the proxy server just listens for connections and creates
      * a new thread for each connection attempt (the ProxyThread
      * class really does all the work)
@@ -289,7 +219,7 @@ class ProxyThread extends Thread {
     private int debugLevel = 0;
     private PrintStream debugOut = System.out;
     private String distraction = "";
-    Map blacklist = BlackList.blacklist;
+    Map<String, BlockSite> blacklist = BlackList.blacklist;
     // the socketTimeout is used to time out the connection to
     // the remote server after a certain period of inactivity;
     // the value is in milliseconds -- use zero if you don't want 
@@ -320,8 +250,6 @@ class ProxyThread extends Thread {
 
     public void run() {
         try {
-
-
             long startTime = System.currentTimeMillis();
 
             // client streams (make sure you're using streams that use
@@ -368,19 +296,29 @@ class ProxyThread extends Thread {
 
             System.out.println("----- request: " + hostName);
             System.out.println("-----------------" + blacklist);
-            Iterator it = blacklist.keySet().iterator();
-            while (it.hasNext()) {
-                System.out.println("---------------xx" + "hereeree");
-                String xx = (String) it.next();
-                System.out.println("---------------xx" + xx);
-                if (hostName.contains(xx)) {
-                    System.out.println("---------------xx" + xx);
+            
+            for (BlockSite site : blacklist.values()) {
+                System.out.println("---------------site: " + site.getStieName());
+                          
+                //NOTE: Task manager is keep tracking of all the tasks initivaties on start time,
+                //so here we're more interested into end time until tasks get finished!
+                
+                Date d = site.getEndtime();
+                
+                if (hostName.contains(site.getStieName()) && (new Date().before(site.getEndtime()))) {
+                    System.out.println("---------------Blocked site: " + site.getStieName() + "until : " + site.getEndtime());
                     distraction = hostName;
-                    System.out.println("blacklist request............." + hostName);
                     hostName = "";
+                    
+                    JOptionPane.showMessageDialog(new Frame(), 
+                            "Fabrizo: Your're doing some specific task at the moment! Concentrate on it! :P" + "\n" +
+                            "Task : " + site.getTaskName() + "\n"+ 
+                            "Start Time: " + site.getStieName() + "\n" +
+                            "End Time: " + site.getStieName(),
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                    
                     break;
-                }
-
+                } 
             }
 
             try {
@@ -642,57 +580,3 @@ class ProxyThread extends Thread {
     }
 }
 
-class Monitor {
-
-    List<BlockSite> sites;
-    Date starttime;
-    Date endtime;
-    boolean running = false;
-
-    public Monitor() {
-
-        sites = new ArrayList<BlockSite>();
-    }
-
-    public void monitor() {
-        // read tasks from task storage 
-
-        // schedule timer to start with starttime of task;
-        //add blocked sites to blacklist
-        // start session
-        //schedule timer to endtime
-        //remove sites from list when timer is after endtime.
-        startSession();
-        this.running = true;
-
-        if (running = true) {
-            if (new Date().after(starttime)) {
-                System.out.println("********************* monitoring started");
-            } else {
-                running = false;
-                endSession();
-                System.out.println("********************* monitoring ended");
-
-            }
-
-        }
-    }
-
-    public void endSession() {
-        // remove from blacklist
-        for (BlockSite bs : sites) {
-            
-            //Change this thing as we have now three things!! 
-            BlackList.remove(s);
-        }
-    }
-
-    public void startSession() {
-        //start blocking
-        for (BlockSite bs : sites) {
-
-            //Change this thing as we have now three things!!
-            BlackList.add(s);
-        }
-    }
-}

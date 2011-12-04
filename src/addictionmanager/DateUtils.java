@@ -53,8 +53,8 @@ public class DateUtils {
             Calendar cal2 = Calendar.getInstance();
             cal2.setTime(new Date());   //current date
             
-            int hours = cal1.get(Calendar.HOUR_OF_DAY) - cal2.get(Calendar.HOUR_OF_DAY);
-            return (hours > 0 && hours < 2);
+            int hours = cal2.get(Calendar.HOUR_OF_DAY) - cal1.get(Calendar.HOUR_OF_DAY);
+            return (hours >= 0 && hours <= 1);
         }
         
         return false;

@@ -18,6 +18,8 @@ import addictionmanager.wizard.WizardView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
@@ -149,9 +151,18 @@ public class AddictionManagerApp extends SingleFrameApplication {
         launch(AddictionManagerApp.class, args); 
         
         //Start the task manager.
-        taskManager = new TaskManager();
-        taskManager.startTaskManager();        
+        Timer timer = new Timer();
+        TaskManagerTask tm = new TaskManagerTask();
+        timer.schedule(tm, new Long(10 * 1000));
+        
     }
     
+    
+   static class TaskManagerTask extends TimerTask {
+    public void run() {
+       TaskManager taskMngr = new TaskManager();
+       taskMngr.start(); 
+    }
+  }
     
 }

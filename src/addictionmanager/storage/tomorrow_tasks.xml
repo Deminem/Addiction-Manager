@@ -1,1 +1,26 @@
-<Tasks/>
+<Tasks>
+  <task>
+    <id>0</id>
+    <name>Tasks</name>
+    <description>dsdsdsdsd</description>
+    <startDateTime>2011-12-05 06:19:30.0 UTC</startDateTime>
+    <endDateTime>2011-12-06 06:19:30.0 UTC</endDateTime>
+    <startDateTimeLong>1323065970000</startDateTimeLong>
+    <endDateTimeLong>1323152370000</endDateTimeLong>
+    <allowedApplications>
+      <string>Twitter</string>
+      <string>You tube</string>
+      <string>Ebay </string>
+    </allowedApplications>
+    <restrictedApplications>
+      <string>Facebook</string>
+      <string>Google+</string>
+      <string>Gumtree</string>
+      <string>World of WarCraft</string>
+      <string>Amazon</string>
+      <string>Miniclip Game</string>
+    </restrictedApplications>
+    <notificationType>ALERT_ONE_TIME_AND_CLOSE</notificationType>
+    <taskType>TOMORROW</taskType>
+  </task>
+</Tasks>
