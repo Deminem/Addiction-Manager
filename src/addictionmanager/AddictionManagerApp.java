@@ -29,6 +29,8 @@ public class AddictionManagerApp extends SingleFrameApplication {
     private static ProcessUtility processUtility;
     private static WizardView wizardViewMngr;
     private static StorageUtility storageUtility;
+    private static AddictionManagerView view;
+    private static TaskManager taskManager;
     
     /**
      * At startup create and show the main frame of the application.
@@ -41,7 +43,6 @@ public class AddictionManagerApp extends SingleFrameApplication {
         try {
             if (OS != null) {
 
-                
                 //Get the process info
                 processUtility = getProcessUtility(OS);
                 processUtility.getAllProcessInfo();
@@ -51,10 +52,7 @@ public class AddictionManagerApp extends SingleFrameApplication {
                 storageUtility.loadAllDocuments();
                 
                 //Check all the previous enteries in today, tomorrow, and schedule.
-                
-                
-                
-                
+
                 List<String> allowedApps = new ArrayList<String>();
                 allowedApps.add("facebook");
                 allowedApps.add("twitter");
@@ -64,7 +62,7 @@ public class AddictionManagerApp extends SingleFrameApplication {
                 restrictedpps.add("test2");
 
                 Task t = new Task();
-                t.setId(1);
+                t.setId(2);
                 t.setName("ssss");
                 t.setDescription("wasup !!");
                 t.setStartDateTime(new Date());
@@ -74,18 +72,13 @@ public class AddictionManagerApp extends SingleFrameApplication {
                 t.setAllowedApplications(allowedApps);
                 t.setRestrictedApplications(restrictedpps);
                 
-               //storageUtility.saveDocument(t);
+                //storageUtility.saveDocument(t);
                 
                 
+                view = new AddictionManagerView(this);
                 
                 //Show the application
-                show(new AddictionManagerView(this));
-                
-                //Start the proxy server
-                jProxy ps = new jProxy(9999);
-                ps.startProxyServer();
-                
-                
+                show(view);
             }
         } catch (Exception e) {
         
@@ -110,19 +103,27 @@ public class AddictionManagerApp extends SingleFrameApplication {
         return Application.getInstance(AddictionManagerApp.class);
     }
     
-    public static WizardView getWizardViewManager() {
+    public AddictionManagerView getApplicationView() {
+        return view;
+    }
+        
+    public WizardView getWizardViewManager() {
         return wizardViewMngr;
     }
-    
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+        
     public void setWizardViewManager(WizardView wv) {
         this.wizardViewMngr = wv;
     }
     
-    public static StorageUtility getStorageUtility() {
+    public StorageUtility getStorageUtility() {
         return storageUtility;
     }
     
-    public static ProcessUtility getProcessUtility(String os) throws NoSuchFieldException {
+    public ProcessUtility getProcessUtility(String os) throws NoSuchFieldException {
         ProcessUtility utility = null;
         
         if (os.indexOf(OSType.MAC.toString()) >= 0) { 
@@ -145,7 +146,11 @@ public class AddictionManagerApp extends SingleFrameApplication {
      * Main method launching the application.
      */
     public static void main(String[] args) {
-        launch(AddictionManagerApp.class, args);        
+        launch(AddictionManagerApp.class, args); 
+        
+        //Start the task manager.
+        taskManager = new TaskManager();
+        taskManager.startTaskManager();        
     }
     
     

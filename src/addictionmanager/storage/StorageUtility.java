@@ -13,5 +13,5 @@ public interface StorageUtility {
     public void loadAllDocuments();
     public boolean isDocumentExists();
     public TasksResponse getDocument(TaskType type);
-    public void saveDocument(Task task);
+    public TasksResponse saveDocument(Task task);
 }

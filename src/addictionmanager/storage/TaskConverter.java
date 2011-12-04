@@ -32,10 +32,10 @@ public class TaskConverter implements Converter {
         while (reader.hasMoreChildren()) {
             reader.moveDown();
             Task t = (Task) uc.convertAnother(tasks, Task.class);
-            lst.add(t);
+            tasks.add(t);
             reader.moveUp();
         }
-        tasks.setTask(lst);
+        
         return tasks;
     }
 

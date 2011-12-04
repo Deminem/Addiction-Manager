@@ -58,48 +58,48 @@ public class XmlStorageUtility implements StorageUtility {
         xstream.alias("Tasks", TasksResponse.class);
         xstream.registerConverter(new TaskConverter());
         xstream.alias("task", Task.class);
-        
+       
         try {
             String filePath = AppConstants.CURRENT_TASKS_FILE_NAME + ".xml";
-            TasksResponse tr = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
-            if (tr != null) {
-                mapDirectory.put(TaskType.CURRENT.toString(), tr);
+            TasksResponse current = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
+            if (current != null) {
+                mapDirectory.put(TaskType.CURRENT.toString(), current);
             }
 
             filePath = AppConstants.TODAY_TASKS_FILE_NAME + ".xml";
-            tr = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
-            if (tr != null) {
-                mapDirectory.put(TaskType.TODAY.toString(), tr);
+            TasksResponse today = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
+            if (today != null) {
+                mapDirectory.put(TaskType.TODAY.toString(), today);
             }  
             
             filePath = AppConstants.TOMORROW_TAKS_FILE_NAME + ".xml";
-            tr = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
-            if (tr != null) {
-                mapDirectory.put(TaskType.TOMORROW.toString(), tr);
+            TasksResponse tomorrow = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
+            if (tomorrow != null) {
+                mapDirectory.put(TaskType.TOMORROW.toString(), tomorrow);
             }            
             
             filePath = AppConstants.SOMEDAY_TASKS_FILE_NAME + ".xml";
-            tr = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
-            if (tr != null) {
-                mapDirectory.put(TaskType.SOMEDAY.toString(), tr);
+            TasksResponse someday = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
+            if (someday != null) {
+                mapDirectory.put(TaskType.SOMEDAY.toString(), someday);
             }            
             
             filePath = AppConstants.LOGGED_TASKS_FILE_NAME + ".xml";
-            tr = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
-            if (tr != null) {
-                mapDirectory.put(TaskType.LOGGED.toString(), tr);
+            TasksResponse logged = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
+            if (logged != null) {
+                mapDirectory.put(TaskType.LOGGED.toString(), logged);
             }
             
             filePath = AppConstants.SCHEDULED_TASKS_FILE_NAME + ".xml";
-            tr = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
-            if (tr != null) {
-                mapDirectory.put(TaskType.SCHEDULED.toString(), tr);
+            TasksResponse scheduled = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
+            if (scheduled != null) {
+                mapDirectory.put(TaskType.SCHEDULED.toString(), scheduled);
             } 
             
             filePath = AppConstants.TRASHED_TASKS_FILE_NAME + ".xml";
-            tr = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
-            if (tr != null) {
-                mapDirectory.put(TaskType.TRASHED.toString(), tr);
+            TasksResponse trashed = (TasksResponse)xstream.fromXML(getClass().getResource(filePath));
+            if (trashed != null) {
+                mapDirectory.put(TaskType.TRASHED.toString(), trashed);
             } 
             
             System.out.println("mapDirectory : " + mapDirectory);
@@ -117,6 +117,7 @@ public class XmlStorageUtility implements StorageUtility {
             XStream xstream = new XStream();
             xstream.alias("Tasks", TasksResponse.class);
             xstream.alias("task", Task.class);
+            xstream.addImplicitCollection(TasksResponse.class, "list");
             
             String filePath = AppConstants.STORAGE_REPO + taskFileName + ".xml";
             FileOutputStream fs = new FileOutputStream(filePath);
@@ -127,16 +128,16 @@ public class XmlStorageUtility implements StorageUtility {
         }
     }
 
-    @Override
-    public void saveDocument(Task task) {
+    public TasksResponse saveDocument(Task task) {
         
+        TasksResponse taskResponse = null;
+         
         try {
             String taskFileName = "";
             XStream xstream = new XStream();
             xstream.alias("Tasks", TasksResponse.class);
-            xstream.alias("Task", Task.class);
-           
-            TasksResponse taskResponse = null;
+            xstream.alias("task", Task.class);
+            xstream.addImplicitCollection(TasksResponse.class, "list");
             
             if (task.getTaskType() == TaskType.CURRENT) {
                 taskFileName = AppConstants.CURRENT_TASKS_FILE_NAME + ".xml";
@@ -162,13 +163,10 @@ public class XmlStorageUtility implements StorageUtility {
             
             if (taskResponse == null) {
                 taskResponse = new TasksResponse();
-                List<Task> lst = new ArrayList<Task>();
-                lst.add(task);
-                
-                taskResponse.setTask(lst);
+                taskResponse.add(task);
             }
             else {
-                taskResponse.getTask().add(task);
+                taskResponse.add(task);
             }
 
             String filePath = AppConstants.STORAGE_REPO + taskFileName;
@@ -178,6 +176,8 @@ public class XmlStorageUtility implements StorageUtility {
         catch (Exception e) {
             System.out.println("Exception : " + e.toString());
         }
+        
+        return taskResponse;
     }
     
     
@@ -189,89 +189,89 @@ public class XmlStorageUtility implements StorageUtility {
         TasksResponse scheduled = mapDirectory.get(TaskType.SCHEDULED.toString());
         TasksResponse someDay = mapDirectory.get(TaskType.SOMEDAY.toString());
         
-        for (Task t : today.getTask()) {
+        for (Task t : today.getList()) {
             if (!DateUtils.isBeforeDay(new Date(), t.getStartDateTime())) {
                 if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                     t.setTaskType(TaskType.CURRENT);
-                    mapDirectory.get(TaskType.CURRENT.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.CURRENT.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.TODAY.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.TODAY.toString()).getList().remove(t);
                 }
             }
         }
         
         //tomorrow enteries
-        for (Task t : tomorrow.getTask()) {
+        for (Task t : tomorrow.getList()) {
             if (!DateUtils.isBeforeDay(new Date(), t.getStartDateTime())) {
                 if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                     t.setTaskType(TaskType.CURRENT);
-                    mapDirectory.get(TaskType.CURRENT.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.CURRENT.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.TOMORROW.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.TOMORROW.toString()).getList().remove(t);
                 }
                 else if (DateUtils.isToday(t.getStartDateTime())) {
                     t.setTaskType(TaskType.TODAY);
-                    mapDirectory.get(TaskType.TODAY.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.TODAY.toString()).getList().add(t);
                     
                     //remove entry
-                     mapDirectory.get(TaskType.TOMORROW.toString()).getTask().remove(t);
+                     mapDirectory.get(TaskType.TOMORROW.toString()).getList().remove(t);
                 }
             }
         }
         
         
         //schedule enteries
-        for (Task t : scheduled.getTask()) {
+        for (Task t : scheduled.getList()) {
             if (!DateUtils.isBeforeDay(new Date(), t.getStartDateTime())) {
                 if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                     t.setTaskType(TaskType.CURRENT);
-                    mapDirectory.get(TaskType.CURRENT.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.CURRENT.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.SCHEDULED.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.SCHEDULED.toString()).getList().remove(t);
                 }
                 else if (DateUtils.isToday(t.getStartDateTime())) {
                     t.setTaskType(TaskType.TODAY);
-                    mapDirectory.get(TaskType.TODAY.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.TODAY.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.SCHEDULED.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.SCHEDULED.toString()).getList().remove(t);
                 }
                 else if (DateUtils.isWithinDaysFuture(t.getStartDateTime(), 1)) {
                     t.setTaskType(TaskType.TOMORROW);
-                    mapDirectory.get(TaskType.TOMORROW.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.TOMORROW.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.SCHEDULED.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.SCHEDULED.toString()).getList().remove(t);
                 }
             }
         }
         
         //someday enteries
-        for (Task t : someDay.getTask()) {
+        for (Task t : someDay.getList()) {
             if (t.getStartDateTime() != null && !DateUtils.isBeforeDay(new Date(), t.getStartDateTime())) {
                 if (DateUtils.isCurrentDate(t.getStartDateTime())) {
                     t.setTaskType(TaskType.CURRENT);
-                    mapDirectory.get(TaskType.CURRENT.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.CURRENT.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.SOMEDAY.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.SOMEDAY.toString()).getList().remove(t);
                 }
                 else if (DateUtils.isToday(t.getStartDateTime())) {
                     t.setTaskType(TaskType.TODAY);
-                    mapDirectory.get(TaskType.TODAY.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.TODAY.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.SOMEDAY.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.SOMEDAY.toString()).getList().remove(t);
                 }
                 else if (DateUtils.isWithinDaysFuture(t.getStartDateTime(), 1)) {
                     t.setTaskType(TaskType.TOMORROW);
-                    mapDirectory.get(TaskType.TOMORROW.toString()).getTask().add(t);
+                    mapDirectory.get(TaskType.TOMORROW.toString()).getList().add(t);
                     
                     //remove entry
-                    mapDirectory.get(TaskType.SOMEDAY.toString()).getTask().remove(t);
+                    mapDirectory.get(TaskType.SOMEDAY.toString()).getList().remove(t);
                 }
             }
         }

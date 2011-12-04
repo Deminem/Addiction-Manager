@@ -15,6 +15,7 @@ import addictionmanager.DateUtils;
 import addictionmanager.notifications.NotificationType;
 import addictionmanager.storage.Task;
 import addictionmanager.storage.TaskType;
+import addictionmanager.storage.TasksResponse;
 import addictionmanager.storage.XmlStorageUtility;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -27,9 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import org.freixas.jcalendar.DateEvent;
-import org.freixas.jcalendar.DateListener;
-import org.freixas.jcalendar.JCalendarCombo;
 import org.jdesktop.application.Action;
 
 /**
@@ -463,7 +461,10 @@ public class WizardView extends javax.swing.JDialog {
          }
          
          //Store the task.
-         storage.saveDocument(task);
+         TasksResponse tr = storage.saveDocument(task);
+         
+         //Refresh
+         app.getApplicationView().changeTaskData(tr);
          
          this.dispose();      
          //Reset the global instance 

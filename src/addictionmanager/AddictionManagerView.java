@@ -30,7 +30,7 @@ public class AddictionManagerView extends FrameView {
         
         currentTaskNavOption.setSelected(true);
         currentTaskNavOption.setFocusable(true);
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.CURRENT));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.CURRENT));
         
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
@@ -46,7 +46,7 @@ public class AddictionManagerView extends FrameView {
         AddictionManagerApp.getApplication().show(aboutBox);
     }
     
-    private void changeTaskData(TasksResponse tResponse) {
+    public void changeTaskData(TasksResponse tResponse) {
  
         DefaultTableModel dtm = (DefaultTableModel)tasksTable.getModel();
         
@@ -55,11 +55,11 @@ public class AddictionManagerView extends FrameView {
         }
         
         if (tResponse != null) {
-            for (Task t : tResponse.getTask()) {
+            for (Task t : tResponse.getList()) {
                Object o[] = {false, 
-                   t.getId(), t.getName(), t.getDescription(), t.getStartDateTime(), t.getEndDateTime(), 
-                   t.getAllowedApplications().toString(), t.getRestrictedApplications().toString(), 
-                   t.getNotificationType()};
+                   t.getId(), t.getName(), t.getDescription(), 
+                   t.getAllowedApplications().toString(), t.getRestrictedApplications().toString(),
+                   t.getStartDateTime(), t.getEndDateTime(), t.getNotificationType().toString()};
 
                dtm.addRow(o);
             }
@@ -281,6 +281,7 @@ public class AddictionManagerView extends FrameView {
         tasksTable.setRowMargin(3);
         tasksTable.setSelectionBackground(resourceMap.getColor("tasksTable.selectionBackground")); // NOI18N
         tasksTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        tasksTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tasksTable);
         tasksTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         tasksTable.getColumnModel().getColumn(0).setMinWidth(15);
@@ -446,38 +447,38 @@ public class AddictionManagerView extends FrameView {
 
     private void currentTaskNavOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentTaskNavOptionActionPerformed
         // TODO add your handling code here:
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.CURRENT));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.CURRENT));
         
     }//GEN-LAST:event_currentTaskNavOptionActionPerformed
 
     private void todayTaskNavOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todayTaskNavOptionActionPerformed
         // TODO add your handling code here:
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.TODAY));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.TODAY));
     }//GEN-LAST:event_todayTaskNavOptionActionPerformed
 
     private void nextTaskNavOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextTaskNavOptionActionPerformed
         // TODO add your handling code here:
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.TOMORROW));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.TOMORROW));
     }//GEN-LAST:event_nextTaskNavOptionActionPerformed
 
     private void scheduleTaskNavOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleTaskNavOptionActionPerformed
         // TODO add your handling code here:
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.SCHEDULED));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.SCHEDULED));
     }//GEN-LAST:event_scheduleTaskNavOptionActionPerformed
 
     private void someDayTaskNavOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_someDayTaskNavOptionActionPerformed
         // TODO add your handling code here:
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.SOMEDAY));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.SOMEDAY));
     }//GEN-LAST:event_someDayTaskNavOptionActionPerformed
 
     private void logBookNavOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logBookNavOptionActionPerformed
         // TODO add your handling code here:
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.LOGGED));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.LOGGED));
     }//GEN-LAST:event_logBookNavOptionActionPerformed
 
     private void trashCanNavOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trashCanNavOptionActionPerformed
         // TODO add your handling code here:
-        changeTaskData(AddictionManagerApp.getStorageUtility().getDocument(TaskType.TRASHED));
+        changeTaskData(AddictionManagerApp.getApplication().getStorageUtility().getDocument(TaskType.TRASHED));
     }//GEN-LAST:event_trashCanNavOptionActionPerformed
 
     private void newTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTaskBtnActionPerformed

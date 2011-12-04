@@ -27,7 +27,7 @@ public enum TaskType {
     TODAY {
 
         public String toString() {
-            return "CURRENT";
+            return "TODAY";
         }
     },
     

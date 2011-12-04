@@ -4,6 +4,7 @@
  */
 package addictionmanager.storage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,21 +13,17 @@ import java.util.List;
  */
 public class TasksResponse {
     
-    private List<Task> Task;
+    private List<Task> list;
 
     public TasksResponse() {
-     
+        list = new ArrayList<Task>();
     }
 
-    public TasksResponse(List<Task> Task) {
-        this.Task = Task;
+    public void add(Task t) {
+        this.list.add(t);
     }
-
-    public List<Task> getTask() {
-        return Task;
-    }
-
-    public void setTask(List<Task> task) {
-        this.Task = task;
+    
+    public List<Task> getList() {
+        return this.list;
     }
 }

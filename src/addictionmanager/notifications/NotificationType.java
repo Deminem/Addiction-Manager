@@ -13,35 +13,35 @@ public enum NotificationType {
     NONE {
 
         public String toString() {
-            return "NONE";
+            return "None";
         }
     },
        
     ALERT_ONLY {
 
         public String toString() {
-            return "ALERT_ONLY";
+            return "Alert once";
         }
     },
         
     ALERT_ONE_TIME_AND_CLOSE {
 
         public String toString() {
-            return "ALERT_ONE_TIME_AND_CLOSE";
+            return "Alert one time and close the restricted program";
         }
     },
     
     ALERT_THREE_TIME_AND_CLOSE {
 
         public String toString() {
-            return "ALERT_THREE_TIME_AND_CLOSE";
+            return "Alert three times and close the restricted program";
         }
     },
         
     ALERT_AND_CLOSE_FORCEFULLY {
 
         public String toString() {
-            return "ALERT_AND_CLOSE_FORCEFULLY";
+            return "Alert once and close forcefully.";
         }
     }
 }

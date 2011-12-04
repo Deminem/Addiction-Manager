@@ -10,6 +10,8 @@ package addictionmanager;
  */
 public class AppConstants {
     
+    public final static int PROXY_SERVER_PORT = 9999;
+    
     public final static String STORAGE_REPO = "/Users/Deminem/Desktop/MSC_workspace/Addiction-Manager/src/addictionmanager/storage/";
     public final static String CURRENT_TASKS_FILE_NAME = "current_tasks";
     public final static String TODAY_TASKS_FILE_NAME = "today_tasks";
